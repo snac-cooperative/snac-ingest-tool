@@ -1,0 +1,121 @@
+{
+    "dataType": "Constellation",
+    "entityType": {
+        "id": "12",
+        "term": "person",
+        "uri": null,
+        "description": null
+    },
+    "operation" : "insert",
+    "otherRecordIDs": [],
+    "maintenanceStatus": null,
+    "maintenanceAgency": null,
+    "maintenanceEvents": [],
+    "sources": [],
+    "legalStatuses": [],
+    "conventionDeclarations": [],
+    "languagesUsed": [],
+    "nameEntries": [
+        {
+            "dataType": "NameEntry",
+            "original": "Test, Snac Ingest",
+            "preferenceScore": "99",
+            "operation" : "insert",
+            "contributors": [
+                {
+                    "operation" : "insert",
+                    "dataType": "Contributor",
+                    "type": {
+                        "id": "7658",
+                        "term": "authorizedForm",
+                        "uri": null,
+                        "type": "name_type",
+                        "description": null
+                    },
+                    "rule": null,
+                    "name": "VIAF",
+                    "operation": null,
+                    "dates": []
+                }
+            ],
+            "components": [
+                {
+                    "operation" : "insert",
+                    "dataType": "NameComponent",
+                    "text": "Test, Snac Ingest",
+                    "order": "0",
+                    "type": {
+                        "id": "400228",
+                        "term": "Name",
+                        "uri": null,
+                        "type": "name_component",
+                        "description": null
+                    },
+                    "operation": null,
+                    "dates": []
+                }
+            ],
+            "language": null,
+            "operation": null,
+            "dates": []
+        },
+        {
+            "dataType": "NameEntry",
+            "original": "Test, Snac Ingest two",
+            "preferenceScore": "0",
+            "operation" : "insert",
+            "contributors": [
+                {
+                    "dataType": "Contributor",
+                    "operation" : "insert",
+                    "type": {
+                        "id": "7657",
+                        "term": "alternativeForm",
+                        "uri": null,
+                        "type": "name_type",
+                        "description": null
+                    },
+                    "rule": null,
+                    "name": "nara",
+                    "operation": null,
+                    "dates": []
+                }
+            ],
+            "components": [
+                {
+                    "dataType": "NameComponent",
+                    "operation" : "insert",
+                    "text": "Zhifirsun, Tumas, 1743-1826",
+                    "order": "0",
+                    "type": {
+                        "id": "400228",
+                        "term": "Name",
+                        "uri": null,
+                        "type": "name_component",
+                        "description": null
+                    },
+                    "operation": null,
+                    "dates": []
+                }
+            ],
+            "language": null,
+            "operation": null,
+            "dates": []
+        }
+    ],
+    "preferredNameEntry": null,
+    "occupations": [],
+    "biogHists": [],
+    "relations": [],
+    "resourceRelations": [],
+    "functions": [],
+    "places": [],
+    "subjects": [],
+    "nationalities": [],
+    "genders": [],
+    "generalContexts": [],
+    "structureOrGenealogies": [],
+    "mandates": [],
+    "images": [],
+    "dates": []
+}

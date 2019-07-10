@@ -15,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.snaccooperative.data.AbstractData;
 import org.snaccooperative.data.Constellation;
 
 import org.snaccooperative.data.Resource;
@@ -49,6 +51,39 @@ public class ListWindowController {
         tableLoader = loadTables();
         progressBar.progressProperty().unbind();
         progressBar.progressProperty().bind(tableLoader.progressProperty());
+
+        constellations.setRowFactory(row -> new TableRow<ConstellationWrapper>() {
+            public void updateItem(ConstellationWrapper cw, boolean empty) {
+                super.updateItem(cw, empty);
+                if (cw != null && cw.getUploadStatus() != null) {
+                    if (cw.getUploadStatus().contains("success")) {
+                        setStyle("-fx-background-color: lightgreen");
+                    } else if (cw.getUploadStatus().contains("failure")) {
+                        setStyle("-fx-background-color: lightcoral");
+                    }
+                } else {
+                    setStyle("-fx-background-color: inherit");
+                }
+
+            }
+        });
+
+        resourcesView.setRowFactory(row -> new TableRow<ResourceWrapper>() {
+            public void updateItem(ResourceWrapper cw, boolean empty) {
+                super.updateItem(cw, empty);
+                if (cw != null && cw.getUploadStatus() != null) {
+                    if (cw.getUploadStatus().contains("success")) {
+                        setStyle("-fx-background-color: lightgreen");
+                    } else if (cw.getUploadStatus().contains("failure")) {
+                        setStyle("-fx-background-color: lightcoral");
+                    }
+                } else {
+                    setStyle("-fx-background-color: inherit");
+                }
+
+            }
+        });
+
 
         new Thread(tableLoader).start();
 
@@ -84,7 +119,11 @@ public class ListWindowController {
                             Resource r = rr.getResource();
                             if (r != null) {
                                 ResourceWrapper rw = new ResourceWrapper(r);
-                                resourcesView.getItems().add(rw);
+                                if (!resourcesView.getItems().contains(rw)) {
+                                    resourcesView.getItems().add(rw);
+                                } else {
+                                    System.err.println("Did not add duplicate: " + rw.getTitle());
+                                }
                             }
                         }
                         updateMessage(file.getName());
@@ -100,5 +139,23 @@ public class ListWindowController {
     @FXML
     private void handleNewResourcesButtonAction() {
 
+    }
+
+    @FXML
+    private void handleNewConstellationButtonAction() {
+        SNACConnector sc = new SNACConnector(App.getData("APIKey"));
+        for (ConstellationWrapper cw : constellations.getItems()) {
+            if (cw.getConstellation().getID() == 0) {
+                //cw.getConstellation().cleanseSubElements(AbstractData.OPERATION_INSERT);
+                Constellation written = sc.writePublishConstellation(cw.getConstellation());
+                if (written != null) {
+                    cw.setUploadStatus("success");
+                } else
+                    cw.setUploadStatus("failure");
+                cw.setServerResponse(sc.getLastServerMessage());
+                cw.setConstellation(written);
+                constellations.refresh();
+            }
+        }
     }
 }

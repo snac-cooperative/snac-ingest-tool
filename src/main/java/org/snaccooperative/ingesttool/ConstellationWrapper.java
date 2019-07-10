@@ -9,6 +9,8 @@ package org.snaccooperative.ingesttool;
 
 import org.snaccooperative.data.Constellation;
 
+import java.util.Objects;
+
 public class ConstellationWrapper {
 
     private Constellation constellation;
@@ -16,6 +18,11 @@ public class ConstellationWrapper {
     private String nameEntry;
 
     private String status;
+
+
+    private String uploadStatus;
+
+    private String serverResponse;
 
     public ConstellationWrapper(Constellation c) {
         setConstellation(c);
@@ -42,4 +49,33 @@ public class ConstellationWrapper {
         return status;
     }
 
+    public String getUploadStatus() {
+        return uploadStatus;
+    }
+
+    public void setUploadStatus(String uploadStatus) {
+        this.uploadStatus = uploadStatus;
+    }
+
+    public String getServerResponse() {
+        return serverResponse;
+    }
+
+    public void setServerResponse(String serverResponse) {
+        this.serverResponse = serverResponse;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConstellationWrapper that = (ConstellationWrapper) o;
+        return Objects.equals(constellation, that.constellation);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(constellation);
+    }
 }

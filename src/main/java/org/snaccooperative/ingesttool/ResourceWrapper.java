@@ -9,6 +9,8 @@ package org.snaccooperative.ingesttool;
 
 import org.snaccooperative.data.Resource;
 
+import java.util.Objects;
+
 public class ResourceWrapper {
 
 
@@ -17,6 +19,10 @@ public class ResourceWrapper {
     private String title;
 
     private String status;
+
+    private String uploadStatus;
+
+    private String serverResponse;
 
     public ResourceWrapper(Resource c) {
         setResource(c);
@@ -47,4 +53,33 @@ public class ResourceWrapper {
         return status;
     }
 
+    public String getUploadStatus() {
+        return uploadStatus;
+    }
+
+    public void setUploadStatus(String uploadStatus) {
+        this.uploadStatus = uploadStatus;
+    }
+
+    public String getServerResponse() {
+        return serverResponse;
+    }
+
+    public void setServerResponse(String serverResponse) {
+        this.serverResponse = serverResponse;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourceWrapper that = (ResourceWrapper) o;
+        return Objects.equals(resource, that.resource);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(resource);
+    }
 }

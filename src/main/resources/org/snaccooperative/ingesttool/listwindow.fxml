@@ -92,7 +92,7 @@
            GridPane.columnIndex="3" GridPane.rowIndex="5"
            GridPane.columnSpan="1" GridPane.rowSpan="1"
            GridPane.halignment="CENTER"
-           onAction="#handleNewResourcesButtonAction">
+           onAction="#handleNewConstellationButtonAction">
       <GridPane.margin>
          <Insets top="20" right="0" bottom="20" left="0"></Insets>
       </GridPane.margin>
