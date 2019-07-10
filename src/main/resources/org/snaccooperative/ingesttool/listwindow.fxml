@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ProgressBar?>
+
+<GridPane fx:controller="org.snaccooperative.ingesttool.ListWindowController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center"
+          hgap="10" vgap="10">
+   <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+   <columnConstraints>
+      <ColumnConstraints minWidth="100" prefWidth="100"
+                         maxWidth="Infinity" halignment="RIGHT">
+      </ColumnConstraints>
+      <ColumnConstraints minWidth="100" prefWidth="200"
+                         maxWidth="Infinity">
+      </ColumnConstraints>
+      <ColumnConstraints minWidth="100" prefWidth="100"
+                         maxWidth="Infinity" hgrow="ALWAYS">
+      </ColumnConstraints>
+      <ColumnConstraints minWidth="100" prefWidth="200"
+                         maxWidth="Infinity">
+      </ColumnConstraints>
+      <ColumnConstraints minWidth="100" prefWidth="100"
+                         maxWidth="Infinity">
+      </ColumnConstraints>
+   </columnConstraints>
+
+   <!-- Add Header Label -->
+   <Label text="SNAC Ingest Tool" GridPane.columnIndex="0"
+          GridPane.rowIndex="0" GridPane.columnSpan="5"
+          GridPane.rowSpan="1" GridPane.halignment="CENTER" >
+      <font>
+         <Font name="Arial" size="22" ></Font>
+      </font>
+      <GridPane.margin>
+         <Insets top="10" right="0" bottom="10" left="0"></Insets>
+      </GridPane.margin>
+   </Label>
+
+   <!-- Add Constellations Table -->
+   <Label text="Constellations" GridPane.columnIndex="0"
+          GridPane.rowIndex="1" GridPane.columnSpan="5"
+          GridPane.rowSpan="1" GridPane.halignment="CENTER" >
+      <GridPane.margin>
+         <Insets top="5" right="0" bottom="0" left="0"></Insets>
+      </GridPane.margin>
+   </Label>
+   <TableView fx:id="constellations" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="5">
+      <columns>
+         <TableColumn prefWidth="550" text="NameEntry" fx:id="name" />
+         <TableColumn prefWidth="150" text="ID/Status" fx:id="status" />
+      </columns>
+   </TableView>
+
+   <!-- Add Resources Table -->
+   <Label text="Resources" GridPane.columnIndex="0"
+          GridPane.rowIndex="3" GridPane.columnSpan="5"
+          GridPane.rowSpan="1" GridPane.halignment="CENTER" >
+      <GridPane.margin>
+         <Insets top="5" right="0" bottom="0" left="0"></Insets>
+      </GridPane.margin>
+   </Label>
+   <TableView fx:id="resourcesView" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="5">
+      <columns>
+         <TableColumn prefWidth="550" text="Title" fx:id="rtitle" />
+         <TableColumn prefWidth="150" text="ID/Status" fx:id="rstatus" />
+      </columns>
+   </TableView>
+
+   <!-- Add Upload Resources Button -->
+   <Button fx:id="submitButton" text="Upload New Resources"
+           prefWidth="200" prefHeight="40" defaultButton="true"
+           GridPane.columnIndex="1" GridPane.rowIndex="5"
+           GridPane.columnSpan="1" GridPane.rowSpan="1"
+           GridPane.halignment="CENTER"
+           onAction="#handleNewResourcesButtonAction">
+      <GridPane.margin>
+         <Insets top="20" right="0" bottom="20" left="0"></Insets>
+      </GridPane.margin>
+   </Button>
+
+   <!-- Add Upload Constellations Button -->
+   <Button fx:id="submitButton2" text="Upload New Constellations"
+           prefWidth="200" prefHeight="40" defaultButton="true"
+           GridPane.columnIndex="3" GridPane.rowIndex="5"
+           GridPane.columnSpan="1" GridPane.rowSpan="1"
+           GridPane.halignment="CENTER"
+           onAction="#handleNewResourcesButtonAction">
+      <GridPane.margin>
+         <Insets top="20" right="0" bottom="20" left="0"></Insets>
+      </GridPane.margin>
+   </Button>
+
+   <!-- Add Progress Bar -->
+   <ProgressBar fx:id="progressBar" GridPane.columnIndex="0" GridPane.columnSpan="5"
+                GridPane.rowIndex="6" progress="0.0" prefHeight="25.0" prefWidth="750"
+                minWidth="750" minHeight="25" GridPane.halignment="CENTER">
+
+   </ProgressBar>
+</GridPane>
