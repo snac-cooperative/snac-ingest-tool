@@ -37,6 +37,11 @@ public class ConstellationWrapper {
             status = "Update ("+c.getID()+")";
     }
 
+    public void setConstellation(Constellation c, String status) {
+        setConstellation(c);
+        this.status = status;
+    }
+
     public Constellation getConstellation() {
         return constellation;
     }

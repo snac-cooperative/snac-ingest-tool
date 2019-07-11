@@ -18,7 +18,7 @@
     "nameEntries": [
         {
             "dataType": "NameEntry",
-            "original": "Test, Snac Ingest",
+            "original": "Test, Snac Ingest Two",
             "preferenceScore": "99",
             "operation" : "insert",
             "contributors": [
@@ -42,7 +42,7 @@
                 {
                     "operation" : "insert",
                     "dataType": "NameComponent",
-                    "text": "Test, Snac Ingest",
+                    "text": "Test, Snac Ingest Two",
                     "order": "0",
                     "type": {
                         "id": "400228",
@@ -85,7 +85,7 @@
                 {
                     "dataType": "NameComponent",
                     "operation" : "insert",
-                    "text": "Zhifirsun, Tumas, 1743-1826",
+                    "text": "Another Ingest Test",
                     "order": "0",
                     "type": {
                         "id": "400228",

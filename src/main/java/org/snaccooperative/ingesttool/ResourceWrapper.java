@@ -41,6 +41,11 @@ public class ResourceWrapper {
             status = "Update ("+c.getID()+")";
     }
 
+    public void setResource(Resource r, String status) {
+        setResource(r);
+        this.status = status;
+    }
+
     public Resource getResource() {
         return resource;
     }

@@ -141,6 +141,24 @@ public class ListWindowController {
 
     @FXML
     private void handleNewResourcesButtonAction() {
+        SNACConnector sc = new SNACConnector(App.getData("APIKey"));
+        for (ResourceWrapper rw : resourcesView.getItems()) {
+            if (rw.getResource().getID() == 0) {
+                Resource written = sc.writeResource(rw.getResource());
+                if (written != null) {
+                    rw.setUploadStatus("success");
+                } else
+                    rw.setUploadStatus("failure");
+                rw.setServerResponse(sc.getLastServerMessage());
+                rw.setResource(written, "Written");
+                resourcesView.refresh();
+            }
+        }
+
+        for (ConstellationWrapper cw : constellations.getItems()) {
+            System.err.println("-------");
+            System.err.println(Constellation.toJSON(cw.getConstellation()));
+        }
 
     }
 
@@ -156,7 +174,7 @@ public class ListWindowController {
                 } else
                     cw.setUploadStatus("failure");
                 cw.setServerResponse(sc.getLastServerMessage());
-                cw.setConstellation(written);
+                cw.setConstellation(written, "Published");
                 constellations.refresh();
             }
         }
