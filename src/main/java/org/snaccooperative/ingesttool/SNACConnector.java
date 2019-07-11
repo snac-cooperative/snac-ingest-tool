@@ -2,6 +2,7 @@ package org.snaccooperative.ingesttool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.snaccooperative.data.AbstractData;
 import org.snaccooperative.data.Constellation;
 import org.snaccooperative.data.Resource;
 
@@ -124,6 +125,8 @@ public class SNACConnector {
 
     public Resource writeResource(Resource r) {
 
+        r.setOperation(AbstractData.OPERATION_INSERT);
+
         // Insert Command
         String query = "{ \"command\" : \"insert_resource\",\n" +
                 "\"apikey\" : \"" + apiKey + "\",\n" +
@@ -139,7 +142,9 @@ public class SNACConnector {
             String result = resultObj.getString("result");
             if (result.equals("success")) {
                 Resource written = Resource.fromJSON(resultObj.getJSONObject("resource").toString());
-                return written;
+                r.setID(written.getID());
+                r.setVersion(written.getVersion());
+                return r;
             }
         }
 

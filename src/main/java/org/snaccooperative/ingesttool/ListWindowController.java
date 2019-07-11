@@ -12,10 +12,7 @@ import java.io.IOException;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableRow;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.snaccooperative.data.AbstractData;
 import org.snaccooperative.data.Constellation;
@@ -117,6 +114,7 @@ public class ListWindowController {
                         if (!constellations.getItems().contains(cw)) {
                             constellations.getItems().add(cw);
 
+                            // TODO: set this to link in correctly (if exists, link to the one already set! else, add)
                             for (ResourceRelation rr : c.getResourceRelations()) {
                                 Resource r = rr.getResource();
                                 if (r != null) {
@@ -124,6 +122,12 @@ public class ListWindowController {
                                     if (!resourcesView.getItems().contains(rw)) {
                                         resourcesView.getItems().add(rw);
                                     } else {
+                                        for (ResourceWrapper existing : resourcesView.getItems()) {
+                                            if (existing.getResource().equals(r)) {
+                                                rr.setResource(existing.getResource());
+                                                break;
+                                            }
+                                        }
                                         System.err.println("Did not add duplicate: " + rw.getTitle());
                                     }
                                 }
@@ -147,10 +151,11 @@ public class ListWindowController {
                 Resource written = sc.writeResource(rw.getResource());
                 if (written != null) {
                     rw.setUploadStatus("success");
+                    rw.setStatus("Written");
                 } else
                     rw.setUploadStatus("failure");
                 rw.setServerResponse(sc.getLastServerMessage());
-                rw.setResource(written, "Written");
+                //rw.setResource(written, "Written");
                 resourcesView.refresh();
             }
         }
@@ -164,6 +169,21 @@ public class ListWindowController {
 
     @FXML
     private void handleNewConstellationButtonAction() {
+
+        boolean clean = true;
+        for (ResourceWrapper rw : resourcesView.getItems()) {
+            if (rw.getStatus().equals("New"))
+                clean = false;
+        }
+
+        if (!clean) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Resources first");
+            alert.setContentText("Any new resources must be uploaded before Constellations!");
+            alert.showAndWait();
+            return;
+        }
+
         SNACConnector sc = new SNACConnector(App.getData("APIKey"));
         for (ConstellationWrapper cw : constellations.getItems()) {
             if (cw.getConstellation().getID() == 0) {
