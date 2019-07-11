@@ -74,12 +74,12 @@ public class ResourceWrapper {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ResourceWrapper that = (ResourceWrapper) o;
-        return Objects.equals(resource, that.resource);
+        return resource.equals(that.resource);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(resource);
+        return resource.hashCode();
     }
 }

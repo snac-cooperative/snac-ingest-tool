@@ -115,6 +115,8 @@
     "genders": [],
     "generalContexts": [],
     "structureOrGenealogies": [],
+    "mandates": [],
+    "images": [],
     "resourceRelations": [
         {
             "dataType": "ResourceRelation",
@@ -272,7 +274,5 @@
             },
             "content": "Washington, Charles, b. 1738. ALS : Stafford County, Va., to George Washington, [1789 Jan. 7]."
         }],
-    "mandates": [],
-    "images": [],
     "dates": []
 }

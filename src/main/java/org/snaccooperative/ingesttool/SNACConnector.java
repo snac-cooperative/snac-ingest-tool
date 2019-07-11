@@ -122,9 +122,28 @@ public class SNACConnector {
         return null;
     }
 
-    public boolean writeResource(Resource r) {
+    public Resource writeResource(Resource r) {
 
-        return false;
+        // Insert Command
+        String query = "{ \"command\" : \"insert_resource\",\n" +
+                "\"apikey\" : \"" + apiKey + "\",\n" +
+                "\"resource\" : " + Resource.toJSON(r) + ",\n" +
+                "\"message\" : \"SNAC Ingest Tool\"}";
+
+        JSONObject resultObj = runQuery(query);
+
+        if (resultObj == null)
+            return null;
+
+        if (resultObj.has("result")) {
+            String result = resultObj.getString("result");
+            if (result.equals("success")) {
+                Resource written = Resource.fromJSON(resultObj.getJSONObject("resource").toString());
+                return written;
+            }
+        }
+
+        return null;
     }
 
     public String getLastServerMessage() {

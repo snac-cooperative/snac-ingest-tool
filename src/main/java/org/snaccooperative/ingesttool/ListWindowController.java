@@ -52,6 +52,7 @@ public class ListWindowController {
         progressBar.progressProperty().unbind();
         progressBar.progressProperty().bind(tableLoader.progressProperty());
 
+
         constellations.setRowFactory(row -> new TableRow<ConstellationWrapper>() {
             public void updateItem(ConstellationWrapper cw, boolean empty) {
                 super.updateItem(cw, empty);
@@ -62,7 +63,7 @@ public class ListWindowController {
                         setStyle("-fx-background-color: lightcoral");
                     }
                 } else {
-                    setStyle("-fx-background-color: inherit");
+                    //setStyle("-fx-background-color: inherit");
                 }
 
             }
@@ -78,7 +79,7 @@ public class ListWindowController {
                         setStyle("-fx-background-color: lightcoral");
                     }
                 } else {
-                    setStyle("-fx-background-color: inherit");
+                    //setStyle("-fx-background-color: inherit");
                 }
 
             }
@@ -113,16 +114,18 @@ public class ListWindowController {
                         Constellation c = Constellation.readFromFile(file);
                         System.err.println("ID " + c.getID());
                         ConstellationWrapper cw = new ConstellationWrapper(c);
-                        constellations.getItems().add(cw);
+                        if (!constellations.getItems().contains(cw)) {
+                            constellations.getItems().add(cw);
 
-                        for (ResourceRelation rr : c.getResourceRelations()) {
-                            Resource r = rr.getResource();
-                            if (r != null) {
-                                ResourceWrapper rw = new ResourceWrapper(r);
-                                if (!resourcesView.getItems().contains(rw)) {
-                                    resourcesView.getItems().add(rw);
-                                } else {
-                                    System.err.println("Did not add duplicate: " + rw.getTitle());
+                            for (ResourceRelation rr : c.getResourceRelations()) {
+                                Resource r = rr.getResource();
+                                if (r != null) {
+                                    ResourceWrapper rw = new ResourceWrapper(r);
+                                    if (!resourcesView.getItems().contains(rw)) {
+                                        resourcesView.getItems().add(rw);
+                                    } else {
+                                        System.err.println("Did not add duplicate: " + rw.getTitle());
+                                    }
                                 }
                             }
                         }
