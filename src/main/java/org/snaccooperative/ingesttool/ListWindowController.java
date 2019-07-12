@@ -143,60 +143,91 @@ public class ListWindowController {
         };
     }
 
+    private Task writeResources() {
+        return new Task() {
+            @Override
+            protected Object call() throws Exception {
+                SNACConnector sc = new SNACConnector(App.getData("APIKey"));
+                updateProgress(0, resourcesView.getItems().size());
+                int i = 0;
+                for (ResourceWrapper rw : resourcesView.getItems()) {
+                    if (rw.getResource().getID() == 0) {
+                        Resource written = sc.writeResource(rw.getResource());
+                        if (written != null) {
+                            rw.setUploadStatus("success");
+                            rw.setStatus("Written");
+                        } else
+                            rw.setUploadStatus("failure");
+                        rw.setServerResponse(sc.getLastServerMessage());
+                        //rw.setResource(written, "Written");
+                        resourcesView.refresh();
+                        updateProgress(++i, resourcesView.getItems().size());
+                    }
+                }
+
+                for (ConstellationWrapper cw : constellations.getItems()) {
+                    System.err.println("-------");
+                    System.err.println(Constellation.toJSON(cw.getConstellation()));
+                }
+
+                return null;
+            }
+        };
+    }
+
+    private Task writeConstellations() {
+        return new Task() {
+            @Override
+            protected Object call() throws Exception {
+                boolean clean = true;
+                for (ResourceWrapper rw : resourcesView.getItems()) {
+                    if (rw.getStatus().equals("New"))
+                        clean = false;
+                }
+
+                if (!clean) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Resources first");
+                    alert.setContentText("Any new resources must be uploaded before Constellations.");
+                    alert.showAndWait();
+                    return null;
+                }
+
+                updateProgress(0, constellations.getItems().size());
+                int i = 0;
+                SNACConnector sc = new SNACConnector(App.getData("APIKey"));
+                for (ConstellationWrapper cw : constellations.getItems()) {
+                    if (cw.getConstellation().getID() == 0) {
+                        cw.getConstellation().cleanseSubElements(AbstractData.OPERATION_INSERT);
+                        Constellation written = sc.writePublishConstellation(cw.getConstellation());
+                        if (written != null) {
+                            cw.setUploadStatus("success");
+                        } else
+                            cw.setUploadStatus("failure");
+                        cw.setServerResponse(sc.getLastServerMessage());
+                        cw.setConstellation(written, "Published");
+                        constellations.refresh();
+                        updateProgress(++i, constellations.getItems().size());
+                    }
+                }
+                return null;
+            }
+        };
+    }
     @FXML
     private void handleNewResourcesButtonAction() {
-        SNACConnector sc = new SNACConnector(App.getData("APIKey"));
-        for (ResourceWrapper rw : resourcesView.getItems()) {
-            if (rw.getResource().getID() == 0) {
-                Resource written = sc.writeResource(rw.getResource());
-                if (written != null) {
-                    rw.setUploadStatus("success");
-                    rw.setStatus("Written");
-                } else
-                    rw.setUploadStatus("failure");
-                rw.setServerResponse(sc.getLastServerMessage());
-                //rw.setResource(written, "Written");
-                resourcesView.refresh();
-            }
-        }
-
-        for (ConstellationWrapper cw : constellations.getItems()) {
-            System.err.println("-------");
-            System.err.println(Constellation.toJSON(cw.getConstellation()));
-        }
-
+        Task worker = writeResources();
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(worker.progressProperty());
+        new Thread(worker).start();
     }
+
 
     @FXML
     private void handleNewConstellationButtonAction() {
-
-        boolean clean = true;
-        for (ResourceWrapper rw : resourcesView.getItems()) {
-            if (rw.getStatus().equals("New"))
-                clean = false;
-        }
-
-        if (!clean) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Resources first");
-            alert.setContentText("Any new resources must be uploaded before Constellations!");
-            alert.showAndWait();
-            return;
-        }
-
-        SNACConnector sc = new SNACConnector(App.getData("APIKey"));
-        for (ConstellationWrapper cw : constellations.getItems()) {
-            if (cw.getConstellation().getID() == 0) {
-                //cw.getConstellation().cleanseSubElements(AbstractData.OPERATION_INSERT);
-                Constellation written = sc.writePublishConstellation(cw.getConstellation());
-                if (written != null) {
-                    cw.setUploadStatus("success");
-                } else
-                    cw.setUploadStatus("failure");
-                cw.setServerResponse(sc.getLastServerMessage());
-                cw.setConstellation(written, "Published");
-                constellations.refresh();
-            }
-        }
+        Task worker = writeConstellations();
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(worker.progressProperty());
+        new Thread(worker).start();
     }
 }
